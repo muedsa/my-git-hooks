@@ -9,4 +9,4 @@
 ```bash
 for ghpath in ./*/*/.git/hooks; do cp ./githooks/* $ghpath; done
 ```
-Windows可以使用Git Base运行命令  
+Windows可以使用Git Bash运行命令  
