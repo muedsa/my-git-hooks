@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# This git hook will prevent merging from specific branches
+
+FORBIDDEN_BRANCH="develop"
+
+if [[ $GIT_REFLOG_ACTION == *merge* ]]; then
+	if [[ $GIT_REFLOG_ACTION == *$FORBIDDEN_BRANCH* ]]; then
+		echo
+		echo \# pre-merge-commit hook
+    echo \# 你可能正在尝试把分支\"$FORBIDDEN_BRANCH\"合并到当前分支！！！
+		echo \# 可以使用 git reset --merge 重置此次操作
+    echo
+		echo \# 或添加 --no-verify 参数跳过验证
+		echo
+		exit 1
+	fi
+fi
