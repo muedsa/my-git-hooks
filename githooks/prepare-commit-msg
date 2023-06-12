@@ -19,16 +19,18 @@
 #
 # The third example adds a Signed-off-by line to the message, that can
 # still be edited.  This is rarely a good idea.
-
-FORBIDDEN_BRANCH="develop"
-
+FORBIDDEN_BRANCHS=("master" "uat" "develop")
 current_branch=$(git branch | grep '*' | sed 's/* //')
+merge_msg_path=".git\MERGE_MSG"
 
 if [[ $2 == 'message' || $2 == 'commit' || $2 == 'template' ]]; then 
-  if [[ $current_branch == $FORBIDDEN_BRANCH ]]; then
+
+  if [[ -f $merge_msg_path ]]; then
+    echo \# ignore merge
+  else if [[ "${FORBIDDEN_BRANCHS[*]}" =~ $current_branch ]]; then
     echo
     echo \# prepare-commit-msg hook $2
-    echo \# 你可能正在向分支\"$FORBIDDEN_BRANCH\"提交代码！！！
+    echo \# 你可能正在向分支\"$current_branch\"提交代码！！！
     echo
     echo \# 添加 --no-verify 参数跳过验证
     echo
